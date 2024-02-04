@@ -1,0 +1,57 @@
+name: Deploy to Azure
+on:
+  workflow_dispatch:
+  workflow_run:
+    workflows: ["Build and Push Docker Image"]
+    types:
+      - completed
+
+jobs:
+  deploy_to_azure:
+    runs-on: ubuntu-latest
+
+    env:
+      TF_VAR_do_access_token: ${{ secrets.DO_ACCESS_TOKEN }}
+      TF_VAR_ghcr_username: ${{ secrets.GHCR_USERNAME }}
+      TF_VAR_ghcr_access_token: ${{ secrets.GHCR_ACCESS_TOKEN }}
+      TF_VAR_docker_image: dgataz-aks-application:latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+
+      - name: Download Encrypted Artifact & Decrypt Artifact
+        uses: badgerhobbs/terraform-state@v1
+        with:
+          encryption_key: ${{ secrets.encryption_key }}
+          operation: download
+          location: artifact
+          directory: ./Terraform
+          github_token: ${{ secrets.gh_access_token }}
+        continue-on-error: true
+
+      - name: Generate SSH key
+        run: ssh-keygen -t rsa -b 4096 -f ~/.ssh/id_rsa
+
+      - name: Configure Terraform
+        uses: hashicorp/setup-terraform@v2
+
+      - name: Initialize Terraform
+        run: terraform -chdir="./Terraform" init
+
+      - name: Run Terraform Plan
+        run: |
+          terraform -chdir="./Terraform" plan
+
+      - name: Deploy to Azure
+        run: |
+          terraform -chdir="./Terraform" apply -auto-approve
+
+      - name: Encrypt Artifact & Upload Encrypted Artifact
+        uses: badgerhobbs/terraform-state@v1
+        with:
+          encryption_key: ${{ secrets.encryption_key }}
+          operation: upload
+          location: artifact
+          directory: ./Terraform
+          github_token: ${{ secrets.gh_access_token }}
