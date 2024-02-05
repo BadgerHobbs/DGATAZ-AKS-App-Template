@@ -4,6 +4,7 @@
         "maattdd.gitless",
         "hashicorp.terraform",
         "esbenp.prettier-vscode",
-        "charliermarsh.ruff"
+        "charliermarsh.ruff",
+        "bierner.markdown-preview-github-styles"
     ]
 }

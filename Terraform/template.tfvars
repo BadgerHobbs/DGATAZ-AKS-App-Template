@@ -1,0 +1,7 @@
+azure_subscription_id = "value"
+azure_tenant_id       = "value"
+azure_client_id       = "value"
+azure_client_secret   = "value"
+ghcr_username         = "value"
+ghcr_access_token     = "value"
+docker_image          = "value"
