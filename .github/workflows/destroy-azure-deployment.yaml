@@ -10,7 +10,7 @@ jobs:
       TF_VAR_do_access_token: ${{ secrets.DO_ACCESS_TOKEN }}
       TF_VAR_ghcr_username: ${{ secrets.GHCR_USERNAME }}
       TF_VAR_ghcr_access_token: ${{ secrets.GHCR_ACCESS_TOKEN }}
-      TF_VAR_docker_image: dgatdo-application:latest
+      TF_VAR_docker_image: dgataz-aks-application:latest
 
     steps:
       - name: Checkout Code

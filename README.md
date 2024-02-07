@@ -40,15 +40,15 @@ az role assignment create --assignee <appId> --role Contributor --scope /subscri
 
 Go to GitHub and set the following secrets to be used within the various GitHub Actions for building and deploying. You can find documentation on setting secrets [here](https://docs.github.com/en/actions/security-guides/encrypted-secrets).
 
-```
-AZURE_SUBSCRIPTION_ID
-AZURE_TENTANT_ID
-AZURE_CLIENT_ID
-AZURE_CLIENT_SECRET
-GHCR_USERNAME
-GHCR_ACCESS_TOKEN
-GH_ACCESS_TOKEN
-ENCRYPTION_KEY
+```bash
+AZURE_SUBSCRIPTION_ID   # Azure Subscription ID
+AZURE_TENTANT_ID        # Azure Tenant ID
+AZURE_CLIENT_ID         # Azure Client ID
+AZURE_CLIENT_SECRET     # Azure Client Secret (Password)
+GHCR_USERNAME           # GitHub Container Registry Username
+GHCR_ACCESS_TOKEN       # GitHub Container Registry Access Token
+GH_ACCESS_TOKEN         # GitHub Repository Access Token
+ENCRYPTION_KEY          # Terraform State Encryption Key
 ```
 
 ## Manual Deployment
@@ -60,7 +60,7 @@ Go to GitHub and create a personal access token with repository read/write permi
 Use the following command to login using your username and token.
 
 ```bash
-docker login ghcr.io -u <USERNAME> -p <GITHUB_PAT>
+docker login ghcr.io -u <GHCR_USERNAME> -p <GH_ACCESS_TOKEN>
 ```
 
 ### Build, Tag, and Push Docker Image
@@ -72,11 +72,11 @@ docker build -t dgataz-aks-application:latest -f Docker/Dockerfile .
 ```
 
 ```bash
-docker dgataz-aks-application:latest ghcr.io/<USERNAME>/dgatdo-application:latest
+docker dgataz-aks-application:latest ghcr.io/<GHCR_USERNAME>/dgatdo-application:latest
 ```
 
 ```bash
-docker push ghcr.io/<USERNAME>/dgataz-aks-application:latest
+docker push ghcr.io/<GHCR_USERNAME>/dgataz-aks-application:latest
 ```
 
 ### Set Terraform Variables
@@ -112,6 +112,10 @@ Run the following command to destroy your previously deployed application using 
 ```bash
 terraform -chdir="./Terraform" destroy -var-file="local.tfvars"
 ```
+
+## Relevant Resources
+
+- Microsoft Docs - [Quickstart: Deploy an Azure Kubernetes Service (AKS) cluster using Terraform](https://learn.microsoft.com/en-us/azure/aks/learn/quick-kubernetes-deploy-terraform?tabs=bash)
 
 ## License
 
