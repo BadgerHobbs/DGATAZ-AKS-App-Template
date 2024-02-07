@@ -11,7 +11,10 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      TF_VAR_do_access_token: ${{ secrets.DO_ACCESS_TOKEN }}
+      TF_VAR_azure_subscription_id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      TF_VAR_azure_tenant_id: ${{ secrets.AZURE_TENANT_ID }}
+      TF_VAR_azure_client_id: ${{ secrets.AZURE_CLIENT_ID }}
+      TF_VAR_azure_client_secret: ${{ secrets.AZURE_CLIENT_SECRET }}
       TF_VAR_ghcr_username: ${{ secrets.GHCR_USERNAME }}
       TF_VAR_ghcr_access_token: ${{ secrets.GHCR_ACCESS_TOKEN }}
       TF_VAR_docker_image: dgataz-aks-application:latest
@@ -23,11 +26,11 @@ jobs:
       - name: Download Encrypted Artifact & Decrypt Artifact
         uses: badgerhobbs/terraform-state@v1
         with:
-          encryption_key: ${{ secrets.encryption_key }}
+          encryption_key: ${{ secrets.ENCRYPTION_KEY }}
           operation: download
           location: artifact
           directory: ./Terraform
-          github_token: ${{ secrets.gh_access_token }}
+          github_token: ${{ secrets.GH_ACCESS_TOKEN }}
         continue-on-error: true
 
       - name: Generate SSH key
@@ -50,8 +53,8 @@ jobs:
       - name: Encrypt Artifact & Upload Encrypted Artifact
         uses: badgerhobbs/terraform-state@v1
         with:
-          encryption_key: ${{ secrets.encryption_key }}
+          encryption_key: ${{ secrets.ENCRYPTION_KEY }}
           operation: upload
           location: artifact
           directory: ./Terraform
-          github_token: ${{ secrets.gh_access_token }}
+          github_token: ${{ secrets.GH_ACCESS_TOKEN }}
