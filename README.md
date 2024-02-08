@@ -53,6 +53,8 @@ ENCRYPTION_KEY          # Terraform State Encryption Key
 
 ## Manual Deployment
 
+For learning purposes, it is reccomended to use the GitHub codespaces dev container included within this repository, as it has all the required software pre-installed (e.g. Docker, Azure CLI, Terraform, k9s).
+
 ### Create GitHub Access Token and Login to GitHub Container Registry
 
 Go to GitHub and create a personal access token with repository read/write permissions, as documented [here](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-container-registry).
@@ -107,13 +109,7 @@ az aks list --resource-group dgataz-aks-app-resources --output table
 
 ### Monitor/Manage with k9s
 
-You can use the following command to export the kubeconfig file from the Terraform output.
-
-```bash
-export KUBECONFIG=./Terraform/kubeconfig.yaml
-```
-
-You can then view this using k9s with the following command.
+You can run the following command to monitor/manage your deployed cluster using k9s.
 ```bash
 k9s
 ```
