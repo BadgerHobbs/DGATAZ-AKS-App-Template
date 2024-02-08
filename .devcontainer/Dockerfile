@@ -10,3 +10,7 @@ RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
 
 # Install Azure CLI
 RUN curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
+
+# Install k9s
+COPY install_k9s.sh /usr/local/bin/install_k9s.sh
+RUN /usr/local/bin/install_k9s.sh && rm /usr/local/bin/install_k9s.sh

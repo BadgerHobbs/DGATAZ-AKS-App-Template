@@ -105,6 +105,19 @@ You can confirm that the resource have been deployed using the following command
 az aks list --resource-group dgataz-aks-app-resources --output table
 ```
 
+### Monitor/Manage with k9s
+
+You can use the following command to export the kubeconfig file from the Terraform output.
+
+```bash
+export KUBECONFIG=./Terraform/kubeconfig.yaml
+```
+
+You can then view this using k9s with the following command.
+```bash
+k9s
+```
+
 ### Destroy Deployment using Terraform
 
 Run the following command to destroy your previously deployed application using Terraform, making sure to answer `yes` to confirm destruction.

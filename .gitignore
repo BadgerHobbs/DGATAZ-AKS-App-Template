@@ -33,5 +33,12 @@ override.tf.json
 .terraformrc
 terraform.rc
 
+# Ignore kubeconfig
+kubeconfig.yaml
+
+# Ignore k9s files for dev container
+.devcontainer/LICENSE
+.devcontainer/README.md
+
 # Keep
 !template.tfvars
