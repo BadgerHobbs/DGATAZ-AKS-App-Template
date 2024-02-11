@@ -13,7 +13,7 @@ RUN curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
 
 # Install k9s
 COPY install_k9s.sh /usr/local/bin/install_k9s.sh
-RUN /usr/local/bin/install_k9s.sh && rm /usr/local/bin/install_k9s.sh
+RUN chmod +x /usr/local/bin/install_k9s.sh && /usr/local/bin/install_k9s.sh && rm /usr/local/bin/install_k9s.sh
 
 # Set default kubeconfig path to the Terraform export.
 ENV KUBECONFIG=./Terraform/kubeconfig.yaml
